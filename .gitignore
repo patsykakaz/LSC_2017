@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+*.db
+.DS_Store
+.coverage
+local_settings.py
+/static
+!/static/fonts
+!/static/img
+!/static/css
+!/static/js

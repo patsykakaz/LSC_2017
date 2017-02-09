@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load pages_tags mezzanine_tags keyword_tags i18n staticfiles %}
+
+{% block meta_title %}{{ page.meta_title }}{% endblock %}
+
+{% block meta_keywords %}
+{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+    {% if not forloop.first %}, {% endif %}
+    {{ keyword }}
+{% endfor %}
+{% endmetablock %}
+{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static "css/fake.css" %}">
+<style type="text/css">
+    #back_cat{
+        padding: 10px 20px 0 0;
+    }
+    #back_cat a,#back_cat a:hover, #back_cat a:visited{
+        color: rgb(56,144,130);
+    }
+    #logo_blog{
+        margin: 20px 0 70px 0;
+    }
+    #logo_blog img{
+        width: 30%;
+        max-width: 150px;
+        /*max-height: 200px;*/
+    }
+    #illustration{
+        width: 100%;
+        margin: 20px 0 40px 0;
+        background-color: white;
+    }#illustration img{
+        width: 100%;
+        height: auto;
+    }
+    #article img{
+        display: inline-block;
+        max-width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        if($('#layer-sidecut img').attr('rel')){
+            target = $('#layer-sidecut img');
+            target.mouseover(function(){
+                rel = target.attr('rel');
+                src = target.attr('src');
+                target.attr('src',rel).attr('rel',src);
+            });
+            target.mouseout(function(){
+                rel = target.attr('rel');
+                src = target.attr('src');
+                target.attr('src',rel).attr('rel',src);
+            });
+        }
+        // sizeBoatImg();
+    });
+    $(window).load(function(){
+        {% if boat.price != 'non spécifié' and boat.price != "" %}
+            setTimeout(function(){
+                $('#price-trigger').removeClass('fade');
+            },1500);
+            $('#price-trigger').click(function(){
+                if($('#price').attr('rel') != 'OFF'){
+                    $('#price').removeClass('btn').fadeOut().css('border-color','white');
+                    rel = $('#price-trigger').attr('rel');
+                    setTimeout(function(){
+                        $('#price').attr('rel','OFF');
+                        $('#price-trigger').removeAttr('href');
+                        $('#price').html(rel);
+                    }, 500);
+                    $('#price').fadeIn();
+                }
+            });
+        {% endif %}
+    });
+    function sizeBoatImg(){
+        $('#layer-sidecut img').height($(window).height()*0.66);
+    }
+</script>
+{% endblock %}
+
+{% block title %}
+    {% editable page.title %}{{ page.title }}{% endeditable %}
+{% endblock %}
+
+{% block main %}
+
+
+    <div id='back_cat' class='text-right'><a href='/'>retour accueil</a></div>
+    <div id='logo_blog' class='text-center'>
+        <img src='{% static "img/logo-small-green.png" %}' alt='logo' />
+    </div>
+
+    <h2 class='text-center'>{{ blog_post.title }}</h2>
+
+    <div id='boat1' class='container'>
+        <div class='col-md-12 text-center'>
+            <h1>{{ FAKE.title }}</h1>
+            {% if FAKE.baseline %}
+                {{ FAKE.baseline }}
+            {% endif %}
+        </div>
+    </div>
+    <div class='container text-justify' style='margin-top: 40px; margin-bottom: 40px'>
+        <div class='col-lg-10 col-md-12 col-lg-offset-1'>
+        {{ FAKE.content|richtext_filters|safe }}
+        </div>
+    </div>
+    <div id='boat3' class='container'>
+        <div class='row'>
+        {% for illustration in FAKE.captions %}
+            <a href='javascript:void(0)' data-toggle="modal" data-target="#modal-{{ forloop.counter0 }}">
+                <div class='col-md-{{ illustration.display_size }} col-sm-{{ illustration.display_size }} col-xs-12 illustration_boat'>
+                    {% if illustration.display_size == 2 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 200 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% elif illustration.display_size == 4 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 400 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% elif illustration.display_size == 6 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 600 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% elif illustration.display_size == 8 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 800 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% elif illustration.display_size == 10 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 1000 450 %")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% elif illustration.display_size == 12 %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 1200 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% else %}
+                        <div class='cropped_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 400 450 %}")'></div>
+                        <div class='mobile_illustration' style='background-image:url("{{ MEDIA_URL }}{% thumbnail illustration.image 370 250 %}")'></div>
+                    {% endif %}
+                    {# <p>{{ illustration.description }}</p> #}
+                    <i class='fa fa-xl fa-expand'></i>
+                    <div class='illustration-caption-layer'>
+                        <div class='illustration-caption'>{{ illustration.description }}</div>
+                    </div>
+                </div>
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="modal-{{ forloop.counter0 }}" tabindex="-1" role="dialog" aria-labelledby="modal-{{ forloop.counter0 }}-label">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-center" id="modal-{{ forloop.counter0 }}-label">
+                                {% if illustration.description%}
+                                    {{ illustration.description }}
+                                {% else %}
+                                    illustration {{ forloop.counter }} - {{ FAKE.title }}
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <img src='{{ MEDIA_URL }}{{ illustration.image }}' alt='illustration full-size' />
+                        </div>
+                    </div>
+                </div>-
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

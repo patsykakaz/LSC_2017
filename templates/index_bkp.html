@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load pages_tags mezzanine_tags i18n staticfiles %}
+
+{% block meta_title %}{% trans "Home" %}{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+<li class="active">{% trans "Home" %}</li>
+{% endblock %}
+
+{% block main %}
+<div id='landing'>
+    <div class='level'>
+        <img id='logo' src='{% static "img/logo.png" %}' alt='logo Le Side Car' />
+    </div>
+    <div id='separator'></div>
+    <div id='baseline' class='level'>
+        <h1>
+            <div> WE ARE LE SIDE CAR. </div>
+            <div style='margin-top:20px'> WE PROVIDE STRATEGIC PLANNING, CREATIVE IDEAS <br /> AND WEB DEVELOPMENT. </div>
+            <div style='margin-top:20px'> JUST LIKE A SIDE CAR: FAST & HANDY. </div>
+        </h1>
+    </div>
+</div>
+<div id='content'>
+    <div id='menu' class='text-center'>
+        <img src='{% static "img/logo-small-green.png" %}' alt='logo Le Side Car' />
+        <div id='layer-level-btn'>
+            <div id='elevator-layer'>
+                <div id='elevator'></div>
+            </div>
+            <div class='level-btn text-center' rel='level1'>
+                <a href='javascript:void(0);'>CLIENTS</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            <div class='level-btn text-center' rel='level2'>
+                <a href='javascript:void(0);'>PROJETS</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            <div class='level-btn text-center' rel='level3'>
+                <a href='javascript:void(0);'>TEAM</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            <div class='level-btn text-center' rel='level4'>
+                <a href='javascript:void(0);'>CONTACT</a>
+            </div>
+        </div>
+        <div id='menu-footer'>
+            <i class='fa fa-2x fa-envelope-square'></i>
+            <i class='fa fa-2x fa-linkedin-square'></i>
+            <i class='fa fa-2x fa-twitter-square'></i>
+        </div>
+    </div>
+    <div id='main'>
+        <div id='level1' class='level'>
+            <div class='levelTitle green'>CLIENTS</div>
+            <div id='clientsLayer'>
+                {% for client in clients %}
+                <div class='clientBox'>
+                    <img src='{{ MEDIA_URL }}{% thumbnail client.logo 250 0 %}' alt='logo {{ client.title }}' />
+                </div>
+                {% endfor %}
+            </div>
+            <div class='moreLayer'>
+                <div class='more'><a href='javascript:void(0)'>Voir +</a></i></div>
+            </div>
+        </div>
+        <div id='level2' class='level text-center'>
+            <div class='levelTitle green'>REALISATIONS</div>
+            {% for element in campagnes %}
+                <div class='campagneBox' style='background: url("{{ MEDIA_URL }}{% thumbnail element.illustration 250 0 %}") no-repeat center center; background-size: 100% 100%;'>
+                    {# <img src='{{ MEDIA_URL }}{% thumbnail element.illustration 250 0 %}' alt='illustration {{ element.title }}' /> #}
+                </div>
+            {% endfor %}
+            {% for element in campagnes %}
+                <div class='campagneBox' style='background: url("{{ MEDIA_URL }}{% thumbnail element.illustration 250 0 %}") no-repeat center center; background-size: 100% 100%;'>
+                    {# <img src='{{ MEDIA_URL }}{% thumbnail element.illustration 250 0 %}' alt='illustration {{ element.title }}' /> #}
+                </div>
+            {% endfor %}
+            <div class='moreLayer'>
+                <div class='more green'><a href='javascript:void(0)'>Voir +</a></i></div>
+            </div>
+        </div>
+        <div id='level3' class='level'>
+            <div class='levelTitle green'>TEAM</div>
+            {% for worker in workers %}
+                <div class='worker'>
+                    <img class='img-thumbnail img-circle' src='{{ MEDIA_URL }}{% thumbnail worker.picture 350 350 %}' alt='picture-{{ worker.title }}' />
+                    <h3 class='title'>{{ worker.title }}</h3>
+                    <h5 class='job'>{{ worker.job|lower }}</h5>
+                </div>
+            {% endfor %}
+        </div>
+        <div id='level4' class='level text-center'>
+            <div class='levelTitle'>CONTACT</div>
+            <div id='layer-contact'>
+              <a href='mailto:nelson@lesidecar.fr' class='contact-item'><i class='fa fa-lg fa-envelope-o'></i></a>
+              <a href='http://twitter.com/lesidecar' target='blank' class='contact-item'><i class='fa fa-lg fa-twitter'></i></a>
+              <a href='http://www.linkedin.com/company/le-side-car' target='blank' class='contact-item'><i class='fa fa-lg fa-linkedin'></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

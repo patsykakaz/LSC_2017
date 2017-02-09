@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load pages_tags mezzanine_tags i18n staticfiles %}
+
+{# {% block meta_title %}{% trans "Home" %}{% endblock %} #}
+{# {% block title %}{% trans "Home" %}{% endblock %} #}
+
+{% block breadcrumb_menu %}
+<li class="active">{% trans "Home" %}</li>
+{% endblock %}
+
+{% block main %}
+<div id='landing'>
+    <div class='level'>
+        <img id='logo' src='{% static "img/logo.png" %}' alt='logo Le Side Car' />
+    </div>
+    <div id='separator'></div>
+    <div id='baseline' class='level'>
+        <h1>
+            <div> STARTUP DE COMMUNICATION POUR STARTUPS  <br />
+                    QUI N'ONT PAS LE TEMPS DE TOUT FAIRE
+            </div>
+            <div class='subBaseline desktop' style='margin-top:20px'> planning stratégique • idées créatives • développement web </div>
+            <div class='subBaseline mobile' style='margin-top:20px'> planning stratégique <br /> idées créatives <br /> développement web </div>
+        </h1>
+    </div>
+    <a href='//noeldelafrenchtech.fr' target='blank'><img id='ribbon' src='{% static "img/ribbon.png" %}' alt='ribbon' /></a>
+</div>
+<div id='content'>
+    <div id='menu' class='text-center'>
+        <img src='{% static "img/logo-small-green.png" %}' alt='Le Side Car' />
+        <div id='layer-level-btn'>
+            <div id='elevator-layer'>
+                <div id='elevator'></div>
+            </div>
+            <div class='level-btn text-center' rel='level1'>
+                <a href='javascript:void(0);'>CLIENTS</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            <!-- FAKEBLOG ZONE -->
+            {% if blogposts|length > 2 %}
+            <div class='level-btn text-center' rel='level2'>
+                <a href='javascript:void(0);'>NEWS</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            {% endif %}
+            <div class='level-btn text-center' rel='level3'>
+                <a href='javascript:void(0);'>TEAM</a>
+                <div class='level-btn-trail'></div>
+            </div>
+            <div class='level-btn text-center' rel='level4'>
+                <a href='javascript:void(0);'>CONTACT</a>
+            </div>
+        </div>
+        <div id='menu-footer'>
+            {# <i class='fa fa-2x fa-envelope-square'></i> #}
+            {# <i class='fa fa-2x fa-linkedin-square'></i> #}
+            {# <i class='fa fa-2x fa-twitter-square'></i> #}
+            <a href='mailto:nelson@lesidecar.fr' class='contact-item'>
+                <i class='fa fa-2x fa-envelope-o'></i>
+            </a>
+            <a href='//www.facebook.com/lesidecar' target='blank' class='contact-item'>
+                <i class='fa fa-2x fa-facebook'></i>
+            </a>
+            <a href='http://twitter.com/lesidecar' target='blank' class='contact-item'>
+                <i class='fa fa-2x fa-twitter'></i>
+            </a>
+            <a href='http://www.linkedin.com/company/le-side-car' target='blank' class='contact-item'>
+                <i class='fa fa-2x fa-linkedin'></i>
+            </a>
+        </div>
+    </div>
+    <div id='main'>
+        <div id='level1' class='level'>
+            {# <div class='levelTitle green'>CLIENTS</div> #}
+            <div id='clientsLayer'>
+                {% for client in clients %}
+                <div class='clientBox'>
+                    <img src='{{ MEDIA_URL }}{% thumbnail client.logo 250 0 %}' alt='logo {{ client.title }}' title='{{ client.title }}' />
+                </div>
+                {% endfor %}
+            </div>
+            <div class='moreLayer'>
+                <div class='more'><a href='javascript:void(0)'>Voir +</a></i></div>
+            </div>
+        </div>
+        <!-- FAKEBLOG ZONE -->
+        {% if blogposts|length > 2 %}
+            <div id='level2' class='level text-center'>
+                <div class='levelTitle green'>NEWS</div>
+                {% for element in blogposts %}
+                    <div class='campagneBox' style='background: url("{{ MEDIA_URL }}{% thumbnail element.illustration 750 0 %}") no-repeat center center; background-size: 100% 100%;'>
+                        <a class='campagneCaption' href='{{ element.get_absolute_url }}'>
+                            <h4 class='campagneTitle'>{{ element.title|upper }}</h4>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class='moreLayer'>
+                    <div class='more green'><a href='javascript:void(0)'>Voir +</a></i></div>
+                </div>
+            </div>
+        {% endif %}
+        <div id='level3' class='level'>
+            {# <div class='levelTitle green'>TEAM</div> #}
+            <div id='container_workers'>
+            {% for worker in workers %}
+                <div class='worker'>
+                    <img class='img-thumbnail img-circle' src='{{ MEDIA_URL }}{% thumbnail worker.picture 350 350 %}' alt='picture-{{ worker.title }}' />
+                    <div class='worker_info'>
+                        <h3 class='title'>{{ worker.title }}</h3>
+                        <h5 class='job'>{{ worker.job|lower }}</h5>
+                        {% if worker.linkedin %}
+                            <a href='{{ worker.linkedin }}' target='blank'><i class='fa fa-lg fa-linkedin'></i></a>
+                        {% endif %}
+                        {% if worker.twitter %}
+                            <a href='{{ worker.twitter }}' target='blank'><i class='fa fa-lg fa-twitter'></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div id='worker_btn_container'>
+                <div class='worker_btn' off='true' target='prev' current='0'>
+                    <a href='javascript:void(0)'>
+                        <i class='fa fa-lg fa-long-arrow-left'></i>
+                        <div class='lining'></div>
+                    </a>
+                </div>
+                <div class='worker_btn' target='next' current='0'>
+                    <a href='javascript:void(0)'>
+                        <i class='fa fa-lg fa-long-arrow-right'></i>
+                        <div class='lining'></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id='level4' class='level text-center'>
+            {# <div class='levelTitle'>CONTACT</div> #}
+            <div id='layer-contact'>
+                <a href='mailto:luc@lesidecar.fr' class='contact-item'>
+                    <i class='fa fa-3x fa-envelope-o'></i>
+		    <h3>Contact</h3>
+                </a>
+                <a href='//www.facebook.com/lesidecar' target='blank' class='contact-item'>
+                    <i class='fa fa-3x fa-facebook'></i>
+		    <h3>Projets</h3>
+                </a>
+                <a href='http://twitter.com/lesidecar' target='blank' class='contact-item'>
+                    <i class='fa fa-3x fa-twitter'></i>
+		    <h3>News</h3>
+                </a>
+                <a href='http://www.linkedin.com/company/le-side-car' target='blank' class='contact-item'>
+                    <i class='fa fa-3x fa-linkedin'></i>
+		    <h3>Jobs</h3>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
